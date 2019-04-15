@@ -23,8 +23,8 @@ provider "github" {
   organization = "capsidjs"
 }
 
-resource "github_team" "maintainers" {
-  name        = "maintainers"
+resource "github_team" "core" {
+  name        = "core"
   description = "Core maintainers"
   privacy     = "closed"
 }
@@ -41,16 +41,16 @@ resource "github_membership" "member" {
   role     = "member"
 }
 
-resource "github_team_membership" "maintainers" {
+resource "github_team_membership" "maintainer" {
   count    = "${length(var.admins)}"
-  team_id  = "${github_team.maintainers.id}"
+  team_id  = "${github_team.core.id}"
   username = "${element(var.admins, count.index)}"
   role     = "maintainer"
 }
 
-resource "github_team_membership" "team_membership_hinosawa" {
+resource "github_team_membership" "member" {
   count    = "${length(var.members)}"
-  team_id  = "${github_team.maintainers.id}"
+  team_id  = "${github_team.core.id}"
   username = "${element(var.members, count.index)}"
   role     = "member"
 }
